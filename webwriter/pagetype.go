@@ -1,4 +1,4 @@
-package writer
+package webwriter
 
 type PageType string
 
@@ -9,5 +9,3 @@ const (
 
 
 
-
-type 
