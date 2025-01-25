@@ -4,6 +4,6 @@ import (
 	types "github.com/fengdotdev/golibs-staticpages/types"
 )
 
-type Element interface {
+type ElementHTML interface {
 	RenderHTML() types.HTML
 }

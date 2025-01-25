@@ -8,15 +8,15 @@ import (
 )
 
 type Page struct {
-	Title      string
-	Route      string
-	Header     string
-	Body       string
-	Footer     string
+	Title      Title
+	Route      Route
+	Header     Header
+	Body       Body
+	Footer     Footer
 	Companions []types.Companion
 }
 
-func NewPage(title, route, header, body, footer string, companions []types.Companion) *Page {
+func NewPage(title Title, route Route, header Header, body Body, footer Footer, companions []types.Companion) *Page {
 	return &Page{
 		Title:      title,
 		Route:      route,
@@ -45,13 +45,13 @@ func (p *Page) RenderBundle() (*types.BundlePage, error) {
 		return nil, err
 	}
 
-	return types.NewBundlePage(p.Title, p.Route, html, js, css, nil), nil
+	return types.NewBundlePage(p.Title.title, p.Route.route, html, js, css, nil), nil
 
 }
 
 func (p *Page) RenderHTML() (string, error) {
 
-	return htmlTemplate(p.Title, p.Header, p.Body, p.Footer)
+	return htmlTemplate(p.Title.GetTitle(), p.Header.GetContent(), p.Body.GetContent(), p.Footer.GetContent())
 }
 
 func (p *Page) RenderCSS() (string, error) {

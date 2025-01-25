@@ -11,7 +11,6 @@ func RemoveAll(filePath string) error {
 	return os.RemoveAll(fullPath)
 }
 
-// TODO implement
 func GetWorkingDir() (string, error) {
 	return os.Getwd()
 }
