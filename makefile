@@ -13,3 +13,8 @@ updatemod:
 
 test:
 	go test -v ./...
+
+
+
+example:
+	go run example/main.go

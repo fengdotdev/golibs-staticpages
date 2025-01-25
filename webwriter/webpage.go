@@ -14,3 +14,7 @@ func (w *WebPage) IsSPA() bool {
 func (w *WebPage) GetPages() []agnostic.Page {
 	return w.pages
 }
+
+func (w *WebPage) AddPage(page agnostic.Page) {
+	w.pages = append(w.pages, page)
+}

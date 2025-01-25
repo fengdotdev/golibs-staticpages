@@ -2,6 +2,15 @@ package webwriter
 
 import "os"
 
+func RemoveAll(filePath string) error {
+	wd, err := GetWorkingDir()
+	if err != nil {
+		return err
+	}
+	fullPath := wd + "/" + filePath
+	return os.RemoveAll(fullPath)
+}
+
 // TODO implement
 func GetWorkingDir() (string, error) {
 	return os.Getwd()

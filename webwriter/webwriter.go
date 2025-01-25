@@ -1,6 +1,9 @@
 package webwriter
 
-import "log"
+import (
+	"log"
+	"strings"
+)
 
 type WebWriter struct {
 	web  WebPage
@@ -27,8 +30,12 @@ func (w *WebWriter) writeSinglePage(outputfolder string) error {
 }
 
 func (w *WebWriter) writeMultiPage(outputfolder string) error {
+	// clean output folder
+	err := RemoveAll(outputfolder)
+	if err != nil {
+		return err
+	}
 
-	//TOOD: Implement
 	pages := w.web.GetPages()
 
 	var outerErr error = nil
@@ -49,8 +56,8 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		}
 
 		if bundle.IsHTML() {
-			route := route + "index"
-			err := WriteHTML(route, bundle.HTML)
+
+			err := WriteHTML(routeFix(route), bundle.HTML)
 			if err != nil {
 				outerErr = err
 				break
@@ -58,8 +65,7 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		}
 
 		if bundle.IsCss() {
-			route := route + "index"
-			err := WriteCSS(route, bundle.CSS)
+			err := WriteCSS(routeFix(route), bundle.CSS)
 			if err != nil {
 				outerErr = err
 				break
@@ -67,8 +73,7 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		}
 
 		if bundle.IsJs() {
-			route := route + "index"
-			err := WriteJS(route, bundle.JS)
+			err := WriteJS(routeFix(route), bundle.JS)
 			if err != nil {
 				outerErr = err
 				break
@@ -87,4 +92,11 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 	}
 
 	return nil
+}
+
+func routeFix(route string) string {
+	if strings.HasSuffix(route, "/") {
+		return route + "index"
+	}
+	return route + "/index"
 }

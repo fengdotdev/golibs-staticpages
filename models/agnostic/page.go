@@ -1,6 +1,9 @@
 package agnostic
 
 import (
+	"strings"
+	"text/template"
+
 	"github.com/fengdotdev/golibs-staticpages/types"
 )
 
@@ -47,7 +50,8 @@ func (p *Page) RenderBundle() (*types.BundlePage, error) {
 }
 
 func (p *Page) RenderHTML() (string, error) {
-	return "foo html", nil
+
+	return htmlTemplate(p.Title, p.Header, p.Body, p.Footer)
 }
 
 func (p *Page) RenderCSS() (string, error) {
@@ -56,4 +60,44 @@ func (p *Page) RenderCSS() (string, error) {
 
 func (p *Page) RenderJS() (string, error) {
 	return "foo js", nil
+}
+
+func htmlTemplate(title, header, body, footer string) (string, error) {
+
+	tmpl := `<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ .Title }}</title>
+	</head>
+	<body>
+		 {{ .Header }}
+			{{ .Body }}
+		 {{ .Footer }}
+	</body>
+	</html>`
+
+	// use text/template to render the html because html/template escapes the html code
+	// and we want to render the html code as it is
+	intermediary, err := template.New("html").Parse(tmpl)
+	if err != nil {
+		return "", err
+	}
+	buffer := new(strings.Builder)
+	err = intermediary.Execute(buffer, htmlTemplateData{
+		Title:  title,
+		Header: header,
+		Body:   body,
+		Footer: footer,
+	})
+
+	return buffer.String(), err
+}
+
+type htmlTemplateData struct {
+	Title  string
+	Header string
+	Body   string
+	Footer string
 }
