@@ -1,4 +1,4 @@
-package types
+package typesdef
 
 import "github.com/fengdotdev/golibs-staticpages/validators"
 

@@ -1,9 +1,9 @@
 package interfaces
 
 import (
-	types "github.com/fengdotdev/golibs-staticpages/types"
+	"github.com/fengdotdev/golibs-staticpages/typesdef"
 )
 
 type ElementHTML interface {
-	RenderHTML() types.HTML
+	RenderHTML() typesdef.HTML
 }

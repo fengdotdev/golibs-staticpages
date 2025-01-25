@@ -6,6 +6,17 @@ type Text struct {
 	classBaseOpt string
 }
 
+// if the environment is not using tailwindcss or bootstrap will default to TextOptions
+func NewText(text string, options TextOptions, classBaseOpt string) *Text {
+	return &Text{
+		text:         text,
+		options:      options,
+		classBaseOpt: classBaseOpt,
+	}
+}
+
+
+// NewTextWithOptions creates a new Text with options
 func NewTextWithOptions(text string, options TextOptions) *Text {
 	return &Text{
 		text:         text,
@@ -20,15 +31,6 @@ func NewTextWithOptions(text string, options TextOptions) *Text {
 func NewTextWithClass(text string, classBaseOpt string) *Text {
 	return &Text{
 		text:         text,
-		classBaseOpt: classBaseOpt,
-	}
-}
-
-// if the environment is not using tailwindcss or bootstrap will default to TextOptions
-func NewText(text string, options TextOptions, classBaseOpt string) *Text {
-	return &Text{
-		text:         text,
-		options:      options,
 		classBaseOpt: classBaseOpt,
 	}
 }

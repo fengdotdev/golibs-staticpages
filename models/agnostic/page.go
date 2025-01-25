@@ -4,7 +4,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/fengdotdev/golibs-staticpages/types"
+	"github.com/fengdotdev/golibs-staticpages/typesdef"
 )
 
 type Page struct {
@@ -13,10 +13,10 @@ type Page struct {
 	Header     Header
 	Body       Body
 	Footer     Footer
-	Companions []types.Companion
+	Companions []typesdef.Companion
 }
 
-func NewPage(title Title, route Route, header Header, body Body, footer Footer, companions []types.Companion) *Page {
+func NewPage(title Title, route Route, header Header, body Body, footer Footer, companions []typesdef.Companion) *Page {
 	return &Page{
 		Title:      title,
 		Route:      route,
@@ -28,7 +28,7 @@ func NewPage(title Title, route Route, header Header, body Body, footer Footer, 
 }
 
 // make a bundle of the page with html, js, css strings separated
-func (p *Page) RenderBundle() (*types.BundlePage, error) {
+func (p *Page) RenderBundle() (*typesdef.BundlePage, error) {
 
 	html, err := p.RenderHTML()
 	if err != nil {
@@ -45,7 +45,7 @@ func (p *Page) RenderBundle() (*types.BundlePage, error) {
 		return nil, err
 	}
 
-	return types.NewBundlePage(p.Title.title, p.Route.route, html, js, css, nil), nil
+	return typesdef.NewBundlePage(p.Title.title, p.Route.route, html, js, css, nil), nil
 
 }
 

@@ -1,4 +1,4 @@
-package types
+package typesdef
 
 type BundlePage struct {
 	Title  string
