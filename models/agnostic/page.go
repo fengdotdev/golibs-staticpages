@@ -51,7 +51,7 @@ func (p *Page) RenderBundle() (*typesdef.BundlePage, error) {
 
 func (p *Page) RenderHTML() (string, error) {
 
-	return htmlTemplate(p.Title.GetTitle(), p.Header.GetContent(), p.Body.GetContent(), p.Footer.GetContent())
+	return htmlTemplate(p.Title, p.Header, p.Body, p.Footer)
 }
 
 func (p *Page) RenderCSS() (string, error) {
@@ -62,7 +62,7 @@ func (p *Page) RenderJS() (string, error) {
 	return "foo js", nil
 }
 
-func htmlTemplate(title, header, body, footer string) (string, error) {
+func htmlTemplate(title Title, header Header, body Body, footer Footer) (string, error) {
 
 	tmpl := `<!DOCTYPE html>
 	<html lang="en">
@@ -85,11 +85,16 @@ func htmlTemplate(title, header, body, footer string) (string, error) {
 		return "", err
 	}
 	buffer := new(strings.Builder)
+
+	headerRender := header.GetChild().RenderHTML()
+	bodyRender := body.GetChild().RenderHTML()
+	footerRender := footer.GetChild().RenderHTML()
+
 	err = intermediary.Execute(buffer, htmlTemplateData{
-		Title:  title,
-		Header: header,
-		Body:   body,
-		Footer: footer,
+		Title:  title.GetTitle(),
+		Header: headerRender.GetHTML(),
+		Body:   bodyRender.GetHTML(),
+		Footer: footerRender.GetHTML(),
 	})
 
 	return buffer.String(), err

@@ -4,29 +4,32 @@ import (
 	"github.com/fengdotdev/golibs-staticpages/models/agnostic"
 	"github.com/fengdotdev/golibs-staticpages/server"
 	"github.com/fengdotdev/golibs-staticpages/webwriter"
+	"github.com/fengdotdev/golibs-staticpages/widgets"
 )
 
 func main() {
 
 	webpage := webwriter.NewMultiPageEmpty()
 
+	text := widgets.NewTextWithClass("Welcome to the home page", "text-lg font-semibold text-gray-900")
+
 	pageHome := agnostic.Page{
-		Title:      "Home",
-		Route:      "/",
-		Body:       "Welcome to the homepage",
-		Header:     "header",
-		Footer:     "footer",
+		Title:      *agnostic.NewTitle("Home"),
+		Route:      *agnostic.NewRoute("/"),
+		Header:     *agnostic.NewHeader(text),
+		Body:       *agnostic.NewBody(text),
+		Footer:     *agnostic.NewFooter(text),
 		Companions: nil,
 	}
 
 	webpage.AddPage(pageHome)
 
 	pageAboutUs := agnostic.Page{
-		Title:      "About Us",
-		Route:      "/about",
-		Body:       "About Us",
-		Header:     "Header",
-		Footer:     "Footer",
+		Title:      *agnostic.NewTitle("About Us"),
+		Route:      *agnostic.NewRoute("/AboutUs"),
+		Header:     *agnostic.NewHeader(text),
+		Body:       *agnostic.NewBody(text),
+		Footer:     *agnostic.NewFooter(text),
 		Companions: nil,
 	}
 

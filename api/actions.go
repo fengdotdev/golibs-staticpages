@@ -1,7 +1,7 @@
 package api
 
-type ActionType string
+type ActionKind string
 
 type Action interface {
-	GetType() ActionType
+	GetKind() ActionKind
 }

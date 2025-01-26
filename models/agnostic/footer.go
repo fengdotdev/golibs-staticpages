@@ -1,13 +1,17 @@
 package agnostic
 
+import "github.com/fengdotdev/golibs-staticpages/widgets"
+
 type Footer struct {
-	content string
+	child widgets.Widget
 }
 
-func NewFooter(content string) *Footer {
-	return &Footer{content: content}
+func NewFooter(child widgets.Widget) *Footer {
+	return &Footer{
+		child: child,
+	}
 }
 
-func (f *Footer) GetContent() string {
-	return f.content
+func (f *Footer) GetChild() widgets.Widget {
+	return f.child
 }

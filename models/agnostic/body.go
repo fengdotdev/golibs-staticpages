@@ -1,15 +1,17 @@
 package agnostic
 
+import "github.com/fengdotdev/golibs-staticpages/widgets"
+
 type Body struct {
-	content string
+	child widgets.Widget
 }
 
-func NewBody(content string) *Body {
+func NewBody(child widgets.Widget) *Body {
 	return &Body{
-		content: content,
+		child: child,
 	}
 }
 
-func (b *Body) GetContent() string {
-	return b.content
+func (b *Body) GetChild() widgets.Widget {
+	return b.child
 }

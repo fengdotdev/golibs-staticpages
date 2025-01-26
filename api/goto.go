@@ -1,7 +1,7 @@
 package api
 
 const (
-	GOTO ActionType = "goto"
+	GOTO ActionKind = "goto"
 )
 
 type Goto struct {
@@ -14,14 +14,9 @@ func NewGoto(url string) *Goto {
 	}
 }
 
-func (g *Goto) GetType() ActionType {
+func (g *Goto) GetType() ActionKind {
 	return GOTO
 }
-
-
-
-
-
 
 func (g *Goto) IsValid() bool {
 	return true

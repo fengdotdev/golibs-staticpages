@@ -26,6 +26,10 @@ func (h *HTML) GetContent() string {
 	return h.content
 }
 
+func (h *HTML) GetHTML() string {
+	return h.GetContent()
+}
+
 func (h *HTML) SetContent(content string) {
 	h.content = content
 }
