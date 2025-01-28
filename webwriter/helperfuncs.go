@@ -1,12 +1,53 @@
 package webwriter
 
-import "os"
+import (
+	"os"
 
-func RemoveAll(filePath string) error {
+	container "github.com/fengdotdev/golibs-datacontainer"
+)
+
+type IOTask struct {
+	filePath string
+	content  container.DataContainer
+}
+
+type paths string
+
+type IOTasker struct {
+	tasks     []IOTask
+	doneTasks []paths
+}
+
+func NewIOTasker() *IOTasker {
+	return &IOTasker{
+		tasks:     []IOTask{},
+		doneTasks: []paths{},
+	}
+}
+
+func (i *IOTasker) AddTask(filePath string, content container.DataContainer) {
+	i.tasks = append(i.tasks, IOTask{
+		filePath: filePath,
+		content:  content,
+	})
+}
+func (i *IOTasker) Do() error {
+	for _, task := range i.tasks {
+		data := task.content.Get().(string)
+		err := WriteToFileInWorkingDir(task.filePath, data)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func RemoveAllInWorkingDir(filePath string) error {
 	wd, err := GetWorkingDir()
 	if err != nil {
 		return err
 	}
+
 	fullPath := wd + "/" + filePath
 	return os.RemoveAll(fullPath)
 }
@@ -15,7 +56,7 @@ func GetWorkingDir() (string, error) {
 	return os.Getwd()
 }
 
-func MkdirAll(filePath string) error {
+func MkdirAllInWorkingDir(filePath string) error {
 	wd, err := GetWorkingDir()
 	if err != nil {
 		return err
@@ -24,7 +65,7 @@ func MkdirAll(filePath string) error {
 	return os.MkdirAll(fullPath, os.ModePerm)
 }
 
-func WriteToFile(filePath string, content string) error {
+func WriteToFileInWorkingDir(filePath string, content string) error {
 
 	wd, err := GetWorkingDir()
 	if err != nil {
@@ -47,20 +88,3 @@ func WriteToFile(filePath string, content string) error {
 	return nil
 }
 
-// filepath without extension
-func WriteCSS(filePath string, content string) error {
-	extension := ".css"
-	return WriteToFile(filePath+extension, content)
-}
-
-// filepath without extension
-func WriteHTML(filePath string, content string) error {
-	extension := ".html"
-	return WriteToFile(filePath+extension, content)
-}
-
-// filepath without extension
-func WriteJS(filePath string, content string) error {
-	extension := ".js"
-	return WriteToFile(filePath+extension, content)
-}

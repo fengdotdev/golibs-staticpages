@@ -30,13 +30,34 @@ func (w *WebWriter) writeSinglePage(outputfolder string) error {
 }
 
 func (w *WebWriter) writeMultiPage(outputfolder string) error {
+
+	// TODO TEST
+	var err error
+	//asuming we are in working dir
+	writedFiles := make([]string, 0)
+
+	defer func() {
+		if err != nil {
+			// clean all files
+			log.Println("Error writing files, cleaning up "+outputfolder, err)
+			for _, file := range writedFiles {
+				err := RemoveAllInWorkingDir(file)
+				if err != nil {
+					log.Println("Error cleaning up "+file, err)
+				}
+			}
+		}
+	}()
+
+
 	// clean output folder
-	err := RemoveAll(outputfolder)
+	err = RemoveAllInWorkingDir(outputfolder)
 	if err != nil {
 		return err
 	}
 
 	pages := w.web.GetPages()
+
 
 	var outerErr error = nil
 	for _, page := range pages {
@@ -49,15 +70,17 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		route := outputfolder + w.root + bundle.Route
 
 		// making folders
-		err := MkdirAll(route)
+		err := MkdirAllInWorkingDir(route)
+		writedFiles = append(writedFiles, route)
 		if err != nil {
 			outerErr = err
 			break
 		}
 
 		if bundle.IsHTML() {
-
-			err := WriteHTML(routeFix(route), bundle.HTML)
+			htmlpath := routeFix(route) + ".html"
+			err := WriteToFileInWorkingDir(htmlpath, bundle.HTML)
+			writedFiles = append(writedFiles, htmlpath)
 			if err != nil {
 				outerErr = err
 				break
@@ -65,7 +88,9 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		}
 
 		if bundle.IsCss() {
-			err := WriteCSS(routeFix(route), bundle.CSS)
+			csspath := routeFix(route) + ".css"
+			err := WriteToFileInWorkingDir(csspath, bundle.CSS)
+			writedFiles = append(writedFiles, csspath)
 			if err != nil {
 				outerErr = err
 				break
@@ -73,7 +98,9 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		}
 
 		if bundle.IsJs() {
-			err := WriteJS(routeFix(route), bundle.JS)
+			jspath := routeFix(route) + ".js"
+			err := WriteToFileInWorkingDir(jspath, bundle.JS)
+			writedFiles = append(writedFiles, jspath)
 			if err != nil {
 				outerErr = err
 				break
@@ -94,6 +121,7 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 	return nil
 }
 
+// routeFix adds index to the end of the route if it ends with a slash
 func routeFix(route string) string {
 	if strings.HasSuffix(route, "/") {
 		return route + "index"

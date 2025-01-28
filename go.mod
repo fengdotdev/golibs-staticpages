@@ -9,3 +9,5 @@ require (
 	github.com/fengdotdev/golibs-traits v0.0.8
 	github.com/google/uuid v1.6.0
 )
+
+require github.com/fengdotdev/golibs-datacontainer v0.0.1

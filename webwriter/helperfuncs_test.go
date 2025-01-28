@@ -9,13 +9,13 @@ import (
 
 func TestWriteToFile(t *testing.T) {
 
-	err := webwriter.WriteToFile("foo", "content")
+	err := webwriter.WriteToFileInWorkingDir("foo", "content")
 	t.Log(err)
 	assert.NoError(t, err)
 }
 
 func TestMkdirAll(t *testing.T) {
-	err := webwriter.MkdirAll("test")
+	err := webwriter.MkdirAllInWorkingDir("test")
 	t.Log(err)
 	assert.NoError(t, err)
 }
