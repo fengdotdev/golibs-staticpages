@@ -10,3 +10,7 @@ type Widget interface {
 	interfaces.WidgetConversions
 	traits.JSONTrait
 }
+
+
+
+

@@ -1,6 +1,9 @@
 package htmlmodels
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 func (a *Attributes) GetAttributes() map[string]string {
 	return a.attributes
@@ -72,10 +75,16 @@ func (a *Attributes) SetStyle(style string) {
 // convertions
 
 func (a *Attributes) ToMap() map[string]string {
+	if !a.notNullOrEmpty() {
+		return make(map[string]string)
+	}
 	return a.attributes
 }
 
 func (a *Attributes) ToSlice() []string {
+	if !a.notNullOrEmpty() {
+		return []string{}
+	}
 	var arr []string
 	for key, value := range a.attributes {
 		arr = append(arr, key+`="`+value+`"`)
@@ -84,9 +93,17 @@ func (a *Attributes) ToSlice() []string {
 }
 
 func (a *Attributes) ToString() string {
-	var str string
-	for key, value := range a.attributes {
-		str += key + `="` + value + `" `
+	if !a.notNullOrEmpty() {
+		return ""
 	}
-	return str
+	var builder strings.Builder
+	for key, value := range a.attributes {
+		builder.WriteString(key + `="` + value + `" `)
+	}
+	result := builder.String()
+	return strings.TrimSpace(result)
+}
+
+func (a *Attributes) notNullOrEmpty() bool {
+	return a.attributes != nil && len(a.attributes) > 0 // but this is more readable bitch
 }

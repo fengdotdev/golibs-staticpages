@@ -42,32 +42,30 @@ func (e *HTMLElement) RenderHTML() typesdef.HTML {
 	var output string
 
 	hasChildren := len(e.children) > 0
-	haveAttributes := len(e.attributes.GetAttributes()) > 0
 
-
-	this is shit TODO 
 	if hasChildren {
-		childrenOutput := ""
-		for _, child := range e.children {
-			childrenOutput += child.
-		}
-
-		if haveAttributes {
-			output = StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + childrenOutput + e.innerText + EndHTML(e.tagName)
-			return *typesdef.NewHTML(output)
-		}
-
-		output = StartHtml(e.tagName) + childrenOutput + e.innerText + EndHtml(e.tagName)
+		output = e.renderHTMLWithChildren()
 		return *typesdef.NewHTML(output)
 	}
-
-	if haveAttributes {
-		output = StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + EndHTML(e.tagName)
-		return *typesdef.NewHTML(output)
-	}
-
-	output = StartHtml(e.tagName) + e.innerText + EndHtml(e.tagName)
+	output = e.renderHTMLWithoutChildren()
 	return *typesdef.NewHTML(output)
+
+}
+
+func (e *HTMLElement) renderHTMLWithoutChildren() string {
+	output := StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + EndHTML(e.tagName)
+	return output
+}
+
+func (e *HTMLElement) renderHTMLWithChildren() string {
+	children := ""
+	for _, child := range e.children {
+		raw := child.RenderHTML()
+		children += raw.GetContent()
+	}
+
+	output := StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + children + EndHTML(e.tagName)
+	return output
 }
 
 // HTML_Content

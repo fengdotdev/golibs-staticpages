@@ -33,3 +33,4 @@ func (h *HTML) GetHTML() string {
 func (h *HTML) SetContent(content string) {
 	h.content = content
 }
+

@@ -57,6 +57,7 @@ func (t *Text) SetClassBaseOpt(classBaseOpt string) {
 }
 
 type TextOptions struct {
+	Id    string
 	Font  string
 	Color string
 	Size  int
@@ -83,7 +84,19 @@ func (t *Text) ToElementHTML() interfaces.ElementHTML {
 		panic("Not implemented")
 	}
 
-	var output htmlmodels.HTMLElement = htmlmodels.NewHTMLElement("p", htmlmodels.NewAttributesEmpty(), []htmlmodels.HTMLElementInterface{}, t.text)
+	var attributes htmlmodels.Attributes = htmlmodels.NewAttributesEmpty()
+
+	if t.options.IsSome() {
+		options := t.options.UnwrapOr(TextOptions{})
+		if options.Id != "" {
+			attributes.AddAttribute("id", options.Id)
+		}
+
+	}
+	if t.classBaseOpt != "" {
+		attributes.AddAttribute("class", t.classBaseOpt)
+	}
+	var output htmlmodels.HTMLElement = htmlmodels.NewHTMLElement("p", attributes, []htmlmodels.HTMLElementInterface{}, t.text)
 
 	return &output
 }

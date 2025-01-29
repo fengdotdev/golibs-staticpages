@@ -25,4 +25,12 @@ func TestTextToPlainHTML(t *testing.T) {
 
 	assert.Equal(t, "<p>Hello World</p>", result)
 
+	foo := "foo"
+	tailwindcss := "text-red-500"
+	textWithId := widgets.NewText("Hello World", widgets.TextOptions{Id: foo}, tailwindcss)
+
+	htmlWithId := textWithId.RenderHTML()
+	resultWithId := htmlWithId.GetHTML()
+
+	assert.Equal(t, "<p id=\"foo\" class=\"text-red-500\">Hello World</p>", resultWithId)
 }
