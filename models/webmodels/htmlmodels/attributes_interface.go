@@ -7,10 +7,13 @@ type AttributesInterface interface {
 }
 
 type AttributesOps interface {
+	SetAttributes(attributes map[string]string)
 	GetAttributes() map[string]string
+
 	GetAttribute(key string) string
 	GetAttributeOrError(key string) (string, error)
 	AddAttribute(key, value string)
+
 	RemoveAttribute(key string)
 	ExistAttribute(key string) bool
 	ClearAttributes()

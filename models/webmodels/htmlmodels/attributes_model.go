@@ -5,3 +5,4 @@ package htmlmodels
 type Attributes struct {
 	attributes map[string]string
 }
+

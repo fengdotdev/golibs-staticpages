@@ -75,7 +75,7 @@ func (a *Attributes) ToMap() map[string]string {
 	return a.attributes
 }
 
-func (a *Attributes) ToArray() []string {
+func (a *Attributes) ToSlice() []string {
 	var arr []string
 	for key, value := range a.attributes {
 		arr = append(arr, key+`="`+value+`"`)
