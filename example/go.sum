@@ -1,3 +1,5 @@
+github.com/fengdotdev/golibs-datacontainer v0.0.1 h1:FJfMH/MgAJGNjmFK5VHwVwwCx8o9vluVzq4grAdBOIw=
+github.com/fengdotdev/golibs-datacontainer v0.0.1/go.mod h1:jPddkIUrpoLMTFzWAJF8qgfU8P8GzQ1UzGhcbYyFutc=
 github.com/fengdotdev/golibs-options v0.0.0-20250124201328-b73033a21057 h1:Babq2J6HqtcW9dP+VU9Ykcztul2gshDK0XDmYbOqFoM=
 github.com/fengdotdev/golibs-options v0.0.0-20250124201328-b73033a21057/go.mod h1:8TLUrgLf1sc38Dh7TWxPBdFGxGXl+3zDDWdqkI9Uw68=
 github.com/fengdotdev/golibs-options v0.0.0-20250126191243-2940ade44600 h1:b3DNf2uPKo8VEBomNruTlJq/BEcLHHk6VeMYdvJy904=

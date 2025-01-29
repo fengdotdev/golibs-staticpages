@@ -86,7 +86,7 @@ func htmlTemplate(title Title, header Header, body Body, footer Footer) (string,
 	}
 	buffer := new(strings.Builder)
 
-	headerRender := header.GetChild().ToElementHTML()
+	headerRender := header.GetChild().RenderHTML()
 	bodyRender := body.GetChild().RenderHTML()
 	footerRender := footer.GetChild().RenderHTML()
 
