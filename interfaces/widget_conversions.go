@@ -1,7 +1,5 @@
 package interfaces
 
-
-
-
 type WidgetConversions interface {
-	To
+	ToElementHTML() ElementHTML
+}

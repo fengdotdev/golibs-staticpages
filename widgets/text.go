@@ -4,6 +4,8 @@ import (
 	"errors"
 
 	option "github.com/fengdotdev/golibs-options"
+	"github.com/fengdotdev/golibs-staticpages/interfaces"
+	"github.com/fengdotdev/golibs-staticpages/models/webmodels/htmlmodels"
 	"github.com/fengdotdev/golibs-staticpages/typesdef"
 )
 
@@ -73,13 +75,22 @@ func (t *Text) GetOptions() (TextOptions, error) {
 
 }
 
-func (t *Text) RenderHTML() typesdef.HTML {
-	if t.classBaseOpt != "" && t.options.IsNone() {
-		s := "<p class='" + t.classBaseOpt + "'>" + t.text + "</p>"
-		return *typesdef.NewHTML(s)
+func (t *Text) ToElementHTML() interfaces.ElementHTML {
+
+	haveChildren := false
+
+	if haveChildren {
+		panic("Not implemented")
 	}
-	s := "<p>" + t.text + "</p>"
-	return *typesdef.NewHTML(s)
+
+	var output htmlmodels.HTMLElement = htmlmodels.NewHTMLElement("p", htmlmodels.NewAttributesEmpty(), []htmlmodels.HTMLElementInterface{}, t.text)
+
+	return &output
+}
+
+func (t *Text) RenderHTML() typesdef.HTML {
+	element := t.ToElementHTML()
+	return element.RenderHTML()
 }
 
 func (t *Text) ToJSON() (string, error) {

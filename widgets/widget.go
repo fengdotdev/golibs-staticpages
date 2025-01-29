@@ -6,6 +6,7 @@ import (
 )
 
 type Widget interface {
-	interfaces.ElementHTML
+	interfaces.Render
+	interfaces.WidgetConversions
 	traits.JSONTrait
 }
