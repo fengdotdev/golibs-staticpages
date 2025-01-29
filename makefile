@@ -18,3 +18,4 @@ test:
 
 example:
 	go run example/main.go
+

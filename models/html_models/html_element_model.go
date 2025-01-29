@@ -1,6 +1,5 @@
 package htmlmodels
 
-
 type HTMLElement struct {
 	tagName    string
 	attributes Attributes
@@ -17,7 +16,7 @@ func (e *HTMLElement) AddChild(child HTMLElement) {
 }
 
 func (e *HTMLElement) AddAttribute(key, value string) {
-	e.attributes[key] = value
+	e.attributes.AddAttribute(key, value)
 }
 
 func (e *HTMLElement) SetInnerText(text string) {
@@ -37,11 +36,11 @@ func (e *HTMLElement) GetTagName() string {
 }
 
 func (e *HTMLElement) GetAttributes() map[string]string {
-	return e.attributes
+	return e.attributes.GetAttributes()
 }
 
 func (e *HTMLElement) GetAttribute(key string) string {
-	return e.attributes[key]
+	return e.attributes.GetAttribute(key)
 }
 
 func (e *HTMLElement) GetChild(index int) HTMLElement {
