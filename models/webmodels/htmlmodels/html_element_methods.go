@@ -42,17 +42,31 @@ func (e *HTMLElement) RenderHTML() typesdef.HTML {
 	var output string
 
 	hasChildren := len(e.children) > 0
+	haveAttributes := len(e.attributes.GetAttributes()) > 0
 
+
+	this is shit TODO 
 	if hasChildren {
+		childrenOutput := ""
+		for _, child := range e.children {
+			childrenOutput += child.
+		}
 
-		childrenstring := ""
+		if haveAttributes {
+			output = StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + childrenOutput + e.innerText + EndHTML(e.tagName)
+			return *typesdef.NewHTML(output)
+		}
 
-		output += "<" + e.tagName + " " + e.attributes.ToString() + ">" + childrenstring + e.innerText + "</" + e.tagName + ">" + "\n"
-
-	} else {
-
-		output += "<" + e.tagName + " " + e.attributes.ToString() + ">" + e.innerText + "</" + e.tagName + ">" + "\n"
+		output = StartHtml(e.tagName) + childrenOutput + e.innerText + EndHtml(e.tagName)
+		return *typesdef.NewHTML(output)
 	}
+
+	if haveAttributes {
+		output = StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + EndHTML(e.tagName)
+		return *typesdef.NewHTML(output)
+	}
+
+	output = StartHtml(e.tagName) + e.innerText + EndHtml(e.tagName)
 	return *typesdef.NewHTML(output)
 }
 
