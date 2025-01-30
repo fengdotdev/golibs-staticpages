@@ -1,4 +1,4 @@
-package options
+package style
 
 type Padding struct {
 	Top    int

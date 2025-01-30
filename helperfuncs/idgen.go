@@ -28,3 +28,10 @@ func GenerateIdDeterministic(name string, namespace SomeUUID) string {
 	uuidV5 := googleuuid.NewMD5(namespacePrime, []byte(name))
 	return uuidV5.String()
 }
+
+func GenerateIdDeterministicWithHASH(name string, toHash string) string {
+	hashed := HashMD5([]byte(toHash))
+	namespacePrime := googleuuid.MustParse(hashed)
+	uuidV5 := googleuuid.NewMD5(namespacePrime, []byte(name))
+	return uuidV5.String()
+}

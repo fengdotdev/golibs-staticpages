@@ -13,6 +13,7 @@ type Widget interface {
 }
 
 type WidgetMisc interface {
+	Identifier() string
 	HaveChildren() bool
 	NumbOfChildren() int
 	HaveOptions() bool

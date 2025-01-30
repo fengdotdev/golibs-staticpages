@@ -2,19 +2,41 @@ package widgets
 
 import (
 	option "github.com/fengdotdev/golibs-options"
+	"github.com/fengdotdev/golibs-staticpages/helperfuncs"
 	"github.com/fengdotdev/golibs-staticpages/interfaces"
 	"github.com/fengdotdev/golibs-staticpages/models/webmodels/htmlmodels"
+	"github.com/fengdotdev/golibs-staticpages/style"
 	"github.com/fengdotdev/golibs-staticpages/typesdef"
 )
 
+func ContainerIdentifier(id string) string {
+	name := id
+	toHash := "container"
+	return helperfuncs.GenerateIdDeterministicWithHASH(name, toHash)
+}
+
 type Container struct {
+	identifier       string
 	children         Widget
 	containerOptions option.Option[ContainerOptions]
 	classBaseOpt     typesdef.ClassBaseOpt
 }
 
+func containerIdentifier(id string) string {
+	var identifier string
+	haveId := id != ""
+	if haveId {
+		identifier = ContainerIdentifier(id)
+		return identifier
+	}
+	identifier = ContainerIdentifier("container")
+	return identifier
+}
+
 func NewContainer(children Widget, containerOptions ContainerOptions, classBaseOpt typesdef.ClassBaseOpt) *Container {
+
 	return &Container{
+		identifier:       containerIdentifier(containerOptions.Id),
 		children:         children,
 		containerOptions: option.NewSome(containerOptions),
 		classBaseOpt:     classBaseOpt,
@@ -23,6 +45,7 @@ func NewContainer(children Widget, containerOptions ContainerOptions, classBaseO
 
 func NewEmptyContainer() *Container {
 	return &Container{
+		identifier:       containerIdentifier(""),
 		children:         nil,
 		containerOptions: option.NewNone[ContainerOptions](),
 		classBaseOpt:     "",
@@ -30,10 +53,18 @@ func NewEmptyContainer() *Container {
 }
 
 type ContainerOptions struct {
-	Id string
+	Id              string
+	Size            style.Size
+	Padding         style.Padding
+	Margin          style.Margin
+	BackgroundColor style.Color
 }
 
 // WidgetMisc
+func (c *Container) Identifier() string {
+	return c.identifier
+}
+
 func (c *Container) HaveChildren() bool {
 	return c.children != nil
 }
@@ -74,10 +105,16 @@ func (c *Container) ToElementHTML() interfaces.ElementHTML {
 }
 
 // interfaces.Render
+
+//webre
 func (c *Container) RenderHTML() typesdef.HTML {
 	element := c.ToElementHTML()
 	return element.RenderHTML()
 }
+
+
+
+
 
 // traits.JSONTrait
 func (c *Container) ToJSON() (string, error) {

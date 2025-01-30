@@ -10,6 +10,7 @@ import (
 )
 
 type Text struct {
+	identifier   string
 	text         string
 	options      option.Option[TextOptions]
 	classBaseOpt typesdef.ClassBaseOpt
@@ -77,6 +78,10 @@ func (t *Text) GetOptions() (TextOptions, error) {
 }
 
 //WidgetMisc
+
+func (t *Text) Identifier() string {
+	return t.identifier
+}
 
 func (t *Text) NumbOfChildren() int {
 	return 0

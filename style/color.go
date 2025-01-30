@@ -1,4 +1,4 @@
-package options
+package style
 
 import (
 	"fmt"
@@ -30,6 +30,7 @@ func NewColor(r, g, b, a int) *Color {
 	return color
 }
 
+// NewColorWithErr creates a new Color but returns an error if the color is invalid
 func NewColorWithErr(r, g, b, a int) (*Color, error) {
 	color := &Color{
 		R: r,
