@@ -7,10 +7,13 @@ import (
 
 type Widget interface {
 	interfaces.Render
+	WidgetMisc
 	interfaces.WidgetConversions
 	traits.JSONTrait
 }
 
-
-
-
+type WidgetMisc interface {
+	HaveChildren() bool
+	NumbOfChildren() int
+	HaveOptions() bool
+}

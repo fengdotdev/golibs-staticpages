@@ -3,6 +3,7 @@ package widgets_test
 import (
 	"testing"
 
+	"github.com/fengdotdev/golibs-staticpages/typesdef"
 	"github.com/fengdotdev/golibs-staticpages/widgets"
 	"github.com/fengdotdev/golibs-testing/assert"
 )
@@ -27,7 +28,7 @@ func TestTextToPlainHTML(t *testing.T) {
 
 	foo := "foo"
 	tailwindcss := "text-red-500"
-	textWithId := widgets.NewText("Hello World", widgets.TextOptions{Id: foo}, tailwindcss)
+	textWithId := widgets.NewText("Hello World", widgets.TextOptions{Id: foo}, typesdef.TailWindCCSClass(tailwindcss))
 
 	htmlWithId := textWithId.RenderHTML()
 	resultWithId := htmlWithId.GetHTML()

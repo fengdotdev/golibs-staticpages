@@ -17,19 +17,19 @@ func NewWriter(web WebPage, root string) *WebWriter {
 	}
 }
 
-// Write writes the web page to the output folder
-func (w *WebWriter) Write(outputFolder string) error {
+// Write writes the web page to the output folder and return the undo func and error
+func (w *WebWriter) Write(outputFolder string) (Undo func  (),err error) {
 	if w.web.IsSPA() {
 		return w.writeSinglePage(outputFolder)
 	}
 	return w.writeMultiPage(outputFolder)
 }
 
-func (w *WebWriter) writeSinglePage(outputfolder string) error {
+func (w *WebWriter) writeSinglePage(outputfolder string) (func(),error) {
 	panic("not implemented") // TODO: Implement
 }
 
-func (w *WebWriter) writeMultiPage(outputfolder string) error {
+func (w *WebWriter) writeMultiPage(outputfolder string) (func(),error) {
 
 	// TODO TEST
 	var err error
@@ -40,20 +40,15 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 		if err != nil {
 			// clean all files
 			log.Println("Error writing files, cleaning up "+outputfolder, err)
-			for _, file := range writedFiles {
-				err := RemoveAllInWorkingDir(file)
-				if err != nil {
-					log.Println("Error cleaning up "+file, err)
-				}
-			}
+			UndoWrite(writedFiles)
 		}
 	}()
 
-
+	
 	// clean output folder
 	err = RemoveAllInWorkingDir(outputfolder)
 	if err != nil {
-		return err
+		return func() {}, err
 	}
 
 	pages := w.web.GetPages()
@@ -115,10 +110,12 @@ func (w *WebWriter) writeMultiPage(outputfolder string) error {
 	if outerErr != nil {
 		// clear all files
 		log.Println("Error writing files, cleaning up "+outputfolder, outerErr)
-		return outerErr
+		return func() {} ,outerErr
 	}
 
-	return nil
+	return func() {
+		UndoWrite(writedFiles)
+	}, nil
 }
 
 // routeFix adds index to the end of the route if it ends with a slash
@@ -127,4 +124,14 @@ func routeFix(route string) string {
 		return route + "index"
 	}
 	return route + "/index"
+}
+
+
+func UndoWrite(writedFiles []string) {
+	for _, file := range writedFiles {
+		err := RemoveAllInWorkingDir(file)
+		if err != nil {
+			log.Println("Error cleaning up "+file, err)
+		}
+	}
 }

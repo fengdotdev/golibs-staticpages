@@ -34,6 +34,14 @@ func (a *Attributes) AddAttribute(key, value string) {
 	a.attributes[key] = value
 }
 
+func (a *Attributes) AppendAttribute(key, value string) {
+	if val, ok := a.attributes[key]; ok {
+		a.attributes[key] = val + value
+		return
+	}
+	a.AddAttribute(key, value)
+}
+
 func (a *Attributes) RemoveAttribute(key string) {
 	delete(a.attributes, key)
 }
@@ -70,6 +78,16 @@ func (a *Attributes) GetStyle() string {
 
 func (a *Attributes) SetStyle(style string) {
 	a.AddAttribute("style", style)
+}
+
+//AttributesMisc
+
+func (a *Attributes) NumberOfAttributes() int {
+	return len(a.attributes)
+}
+
+func (a *Attributes) ExistAttributes() bool {
+	return len(a.attributes) > 0
 }
 
 // convertions

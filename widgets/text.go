@@ -12,7 +12,7 @@ import (
 type Text struct {
 	text         string
 	options      option.Option[TextOptions]
-	classBaseOpt string
+	classBaseOpt typesdef.ClassBaseOpt
 }
 
 func NewSimpleText(text string) *Text {
@@ -24,7 +24,7 @@ func NewSimpleText(text string) *Text {
 }
 
 // if the environment is not using tailwindcss or bootstrap will default to TextOptions
-func NewText(text string, options TextOptions, classBaseOpt string) *Text {
+func NewText(text string, options TextOptions, classBaseOpt typesdef.ClassBaseOpt) *Text {
 	return &Text{
 		text:         text,
 		options:      option.NewSome(options),
@@ -47,13 +47,13 @@ func NewTextWithOptions(text string, options TextOptions) *Text {
 func NewTextWithClass(text string, classBaseOpt string) *Text {
 	return &Text{
 		text:         text,
-		classBaseOpt: classBaseOpt,
+		classBaseOpt: typesdef.NewClassBaseOpt(classBaseOpt),
 		options:      option.NewNone[TextOptions](),
 	}
 }
 
 func (t *Text) SetClassBaseOpt(classBaseOpt string) {
-	t.classBaseOpt = classBaseOpt
+	t.classBaseOpt = typesdef.NewClassBaseOpt(classBaseOpt)
 }
 
 type TextOptions struct {
@@ -76,6 +76,21 @@ func (t *Text) GetOptions() (TextOptions, error) {
 
 }
 
+//WidgetMisc
+
+func (t *Text) NumbOfChildren() int {
+	return 0
+}
+
+func (t *Text) HaveChildren() bool {
+	return false
+}
+
+func (t *Text) HaveOptions() bool {
+	return t.options.IsSome()
+}
+
+// WidgetConversions
 func (t *Text) ToElementHTML() interfaces.ElementHTML {
 
 	haveChildren := false
@@ -94,18 +109,20 @@ func (t *Text) ToElementHTML() interfaces.ElementHTML {
 
 	}
 	if t.classBaseOpt != "" {
-		attributes.AddAttribute("class", t.classBaseOpt)
+		attributes.AppendAttribute("class", t.classBaseOpt.String())
 	}
 	var output htmlmodels.HTMLElement = htmlmodels.NewHTMLElement("p", attributes, []htmlmodels.HTMLElementInterface{}, t.text)
 
 	return &output
 }
 
+// interfaces.Render
 func (t *Text) RenderHTML() typesdef.HTML {
 	element := t.ToElementHTML()
 	return element.RenderHTML()
 }
 
+// traits.JSONTrait
 func (t *Text) ToJSON() (string, error) {
 	panic("Not implemented")
 	return `{"text": "` + t.text + `"}`, nil

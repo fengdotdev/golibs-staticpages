@@ -24,6 +24,10 @@ func (e *HTMLElement) AddAttribute(key, value string) {
 	e.attributes.AddAttribute(key, value)
 }
 
+func (e *HTMLElement) AppendAttribute(key, value string) {
+	e.attributes.AppendAttribute(key, value)
+}
+
 func (e *HTMLElement) RemoveAttribute(key string) {
 	e.attributes.RemoveAttribute(key)
 }
@@ -53,7 +57,7 @@ func (e *HTMLElement) RenderHTML() typesdef.HTML {
 }
 
 func (e *HTMLElement) renderHTMLWithoutChildren() string {
-	output := StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + EndHTML(e.tagName)
+	output := StartHTMLAttributes(e.tagName, &e.attributes) + e.innerText + EndHTML(e.tagName)
 	return output
 }
 
@@ -64,7 +68,7 @@ func (e *HTMLElement) renderHTMLWithChildren() string {
 		children += raw.GetContent()
 	}
 
-	output := StartHTMLAttributes(e.tagName, e.attributes.GetAttributes()) + e.innerText + children + EndHTML(e.tagName)
+	output := StartHTMLAttributes(e.tagName, &e.attributes) + e.innerText + children + EndHTML(e.tagName)
 	return output
 }
 
@@ -85,6 +89,8 @@ func (e *HTMLElement) GetChildren() []HTMLElementInterface {
 func (e *HTMLElement) AddChild(child HTMLElementInterface) {
 	e.children = append(e.children, child)
 }
+
+//
 
 // HTML_ID_CLass_Styles
 func (e *HTMLElement) GetId() string {

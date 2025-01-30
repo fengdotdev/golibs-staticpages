@@ -20,13 +20,16 @@ func TestE2E(t *testing.T) {
 
 	text := widgets.NewTextWithClass("Welcome to the home page", "text-lg font-semibold text-gray-900")
 
+	container := widgets.NewContainer(text, widgets.ContainerOptions{Id: "container"}, "bg-gray-100")
+
+	companion := webwriter.NewTailwindCompanion()
 	home := agnostic.Page{
 		Title:      *agnostic.NewTitle("Home"),
 		Route:      *agnostic.NewRoute("/"),
 		Header:     *agnostic.NewHeader(text),
-		Body:       *agnostic.NewBody(text),
+		Body:       *agnostic.NewBody(container),
 		Footer:     *agnostic.NewFooter(text),
-		Companions: nil,
+		Companions: agnostic.Companions(companion),
 	}
 
 	// Create a new multi-page
@@ -34,6 +37,9 @@ func TestE2E(t *testing.T) {
 	webPage := webwriter.NewMultiPage([]agnostic.Page{home})
 
 	wr := webwriter.NewWriter(*webPage, "")
-	err := wr.Write(outputDir)
+	undo, err := wr.Write(outputDir)
 	assert.Nil(t, err)
+
+	// undo the write
+	undo()
 }
