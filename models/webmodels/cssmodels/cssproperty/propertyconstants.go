@@ -1,4 +1,4 @@
-package cssmodels
+package cssproperty
 
 type CSSProperty string
 

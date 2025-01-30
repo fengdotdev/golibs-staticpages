@@ -28,8 +28,7 @@ func NewStyle() *Style {
 
 func (s *Style) RenderCSS() typesdef.CSS {
 
-	panic("not implemented") // TODO: Implement
-
+	s.Size.RenderPreCSS()
 	return typesdef.CSS{}
 
 }

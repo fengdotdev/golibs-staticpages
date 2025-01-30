@@ -5,7 +5,9 @@ import (
 
 	option "github.com/fengdotdev/golibs-options"
 	"github.com/fengdotdev/golibs-staticpages/interfaces"
+	"github.com/fengdotdev/golibs-staticpages/models/webmodels/cssmodels"
 	"github.com/fengdotdev/golibs-staticpages/models/webmodels/htmlmodels"
+	"github.com/fengdotdev/golibs-staticpages/style"
 	"github.com/fengdotdev/golibs-staticpages/typesdef"
 )
 
@@ -58,10 +60,18 @@ func (t *Text) SetClassBaseOpt(classBaseOpt string) {
 }
 
 type TextOptions struct {
-	Id    string
-	Font  string
-	Color string
-	Size  int
+	Id        string
+	Font      style.Font
+	FontColor style.Color
+	FontSize  int
+}
+
+func (to *TextOptions) RenderCSS() typesdef.CSS {
+
+	css := cssmodels.NewCSSModel()
+	css.AddCSSKeyword(cssmodels.W, to.Font.FontFamily)
+
+	return typesdef.CSS{}
 }
 
 func (t *Text) GetText() string {
@@ -125,6 +135,19 @@ func (t *Text) ToElementHTML() interfaces.ElementHTML {
 func (t *Text) RenderHTML() typesdef.HTML {
 	element := t.ToElementHTML()
 	return element.RenderHTML()
+}
+
+func (t *Text) RenderCSS() typesdef.CSS {
+
+	selector := t.identifier
+
+	var precss string
+
+	if t.options.IsSome() {
+
+	}
+
+	return cssmodels.RenderCSS(selector, "")
 }
 
 // traits.JSONTrait

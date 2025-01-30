@@ -34,3 +34,5 @@ func RenderCSS(Selector string, precss string) typesdef.CSS {
 	css := Selector + " {" + precss + "}"
 	return *typesdef.NewCSS(css)
 }
+
+

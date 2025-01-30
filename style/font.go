@@ -1,9 +1,8 @@
 package style
 
 type Font struct {
-	Family string
-	Size   int
-	Style  string
-	Weight string
+	FontFamily string
+	FontSize   int
+	FontStyle  string
+	FontWeight string
 }
-
