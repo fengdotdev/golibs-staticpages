@@ -12,6 +12,7 @@ func main() {
 	webpage := webwriter.NewMultiPageEmpty()
 
 	text := widgets.NewTextWithClass("Welcome to the home page", "text-lg font-semibold text-gray-900")
+	text2 := widgets.NewTextWithClass()
 
 	pageHome := agnostic.Page{
 		Title:      *agnostic.NewTitle("Home"),
@@ -39,7 +40,7 @@ func main() {
 
 	output := "output"
 
-	err := webwr.Write(output)
+	_, err := webwr.Write(output)
 	if err != nil {
 		panic(err)
 	}
